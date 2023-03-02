@@ -1,5 +1,6 @@
 '''
 - N장 중 3장의 카드를 골라 M을 넘지 않는 최대합
+=> N개 중 k개 뽑는 방법 범위 설정 잘 기억하기! 
 '''
 N,M = map(int,input().split())
 cards = list(map(int,input().split()))
