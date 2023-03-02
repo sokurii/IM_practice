@@ -7,49 +7,48 @@
 
 # [1] 빙고 배열, 사회자번호 리스트 생성
 bingo = [list(map(int,input().split())) for _ in range(5)]
-# change = list(map(list,zip(*bingo))) # 전치행렬
-# change = bingo
-# change = list(map(list,zip(*change))) # 전치행렬
 say = []
 for _ in range(5):
     say += list(map(int,input().split()))
-print(say)
+
 # [2] 부르는 번호대로 빙고판에 표시해주기
-cnt = 0
-line1 = 0
-line2 = 0
 for n in range(25):
-    change = bingo
     for i in range(5):
         for j in range(5):
-            if say[n] == bingo[i][j]:
+            if bingo[i][j] == say[n]:
                 bingo[i][j] = 0
-                change = list(map(list, zip(*bingo)))
                 break
-        print(change)
-        print(bingo)
-        print()
-        # 대각선
+
+# [3] 3선 빙고 확인
+
+    #  3선 빙고 세기
+    cnt = 0
+
+    # 대각선 빙고
+    line1 = 0
+    line2 = 0
+    for i in range(5):
         if bingo[i][i] == 0:
-            line1 += bingo[i][i]
+            line1 += 1
         if bingo[i][4-i] == 0:
-            line2 += bingo[i][4-i]
-
-        # [3] 3선 빙고 확인하기
-        if sum(bingo[i])==0 or sum(change[i])==0:
-            cnt += 1
-
-    if line1 == 5 or line2 == 5:
+            line2 += 1
+    if line1 == 5:
+        cnt += 1
+    if line2 == 5:
         cnt += 1
 
+    # 전치행렬
+    change = bingo
+    change = list(map(list,zip(*change)))
+
+    for i in range(5):
+        if sum(bingo[i]) == 0:
+            cnt += 1
+        if sum(change[i]) == 0:
+            cnt += 1
+
+
+    # [4] 빙고가 완성되는 인덱스 출력
     if cnt >= 3:
-        print(say[n])
+        print(n+1)
         break
-
-
-
-
-
-
-
-
