@@ -1,52 +1,34 @@
-'''
--오목인 돌을 1로, 아닌 곳은 0으로 바꾸기
--연속한 1의 개수가 5 이상인 경우 yes 출력
+def solve(arr):
+    # [1] 가능한 모든 시작 위치
+    for i in range(N):
+        for j in range(N):
+            # [2] 4방향 순서대로 체크
+            for di, dj in ((-1,1),(0,1),(1,1),(1,0)):
+                # [3] 해당 방향으로 뻗어 나가면서 4까지 곱해주기
+                for mul in range(5):   # 0인 경우 i, j
+                    # next i, j
+                    ni, nj = i + di*mul, j + dj*mul
+                    #  범위를 벗어났거나 범위내 지만 돌이 아닌 경우
+                    if 0<= ni <N and 0<=nj<N and arr[ni][nj] == 'o':
+                        pass #  오목 성공
+                    else:
+                        break # 다음 방향으로
+                else: # for문 다섯 번 다 돌았을 경우. 즉 5개가 돌인 경우
+                    return 'YES'
+    return 'NO'
 
-=> tc 91/100 .. 놓아준다. . 
-해설 강의 듣고 내일 아침에 스스로 풀어보도록 
-'''
+
+
 
 T = int(input())
 for tc in range(1,T+1):
     N = int(input())
-    game = [list(input()) for _ in range(N)]
-    ans = 'NO' # 오목 판정 기본값을 no로 설정
+    arr = [input() for _ in range(N)]
 
-    # [1] 돌이 있는 경우 1, 아닌 경우 0으로 바꾸어 준다
-    for lst in game:
-        for d in range(N):
-            if lst[d] == 'o':
-                lst[d] = 1
-            else:
-                lst[d] = 0
-
-    # [2-1] 가로 오목 판정
-    for row in game:
-        for i in range(N-4):
-            for k in range(i+5,N+1):  # 연속하는 오목이 5 이상
-                if row[i:k].count(1) >= len(row[i:k]):
-                    ans = 'YES'
-
-
-    # [2-2] 세로 오목 판정 (전치행렬)
-    col_game = list(map(list, zip(*game)))
-    for col in col_game:
-        for i in range(N-4):
-            for k in range(i+5,N+1):  # 연속하는 오목이 5 이상
-                if col[i:k].count(1) >= len(col[i:k]):
-                    ans = 'YES'
-
-
-    # [2-3] 대각선 오목 판정
-    line1 = 0
-    line2 = 0
-    for i in range(N):
-        line1 += game[i][i]
-        line2 += game[i][N-1-i]
-
-    if line1 >= 5 or line2 >= 5:
-        ans = 'YES'
-
+    ans = solve(arr)
     print(f'#{tc} {ans}')
+
+
+
 
 
